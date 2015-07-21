@@ -80,12 +80,6 @@ ORDER BY t.table_name
   
 SELECT CONCAT('DROP TABLE `',t.table_schema,'`.`',t.table_name,'`;') AS stmt
 FROM information_schema.tables t
-WHERE t.table_schema = 'vivek_magento'
-AND t.table_name LIKE 'perception%' ESCAPE '\\'
-ORDER BY t.table_name
-  
-SELECT CONCAT('DROP TABLE `',t.table_schema,'`.`',t.table_name,'`;') AS stmt
-FROM information_schema.tables t
 WHERE t.table_schema = '<database_name>'
 AND t.table_name LIKE '<table_name>%' ESCAPE '\\'
 ORDER BY t.table_name
@@ -106,38 +100,11 @@ WHERE COLUMN_NAME LIKE '<column_name>%'
 AND TABLE_SCHEMA='<database_name>';
 
 --example--
-SELECT DISTINCT TABLE_NAME, COLUMN_NAME, CONCAT('ALTER TABLE `',TABLE_SCHEMA,'`.`',TABLE_NAME,'` DROP `',COLUMN_NAME,'`;') AS stmt
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE COLUMN_NAME LIKE "perception%"
-AND TABLE_SCHEMA='vivek_magento';
-
 --JUST DROP do not list out--
-SELECT CONCAT('ALTER TABLE `',TABLE_SCHEMA,'`.`',DISTINCT TABLE_NAME,'` DROP `',COLUMN_NAME,'`;') AS stmt
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE COLUMN_NAME LIKE "perception%"
-AND TABLE_SCHEMA='vivek_magento';
-
 --ALTER TABLE x DROP a;
 
-SELECT DISTINCT TABLE_NAME, COLUMN_NAME
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE COLUMN_NAME LIKE "elite%"
-AND TABLE_SCHEMA='vivek_magento';
---Find all tables having specific "columns" end--
+-Find all tables having specific "columns" end--
 
-
---Vehicle fits module uninstall database & data start--
-SELECT CONCAT('DROP TABLE `',t.table_schema,'`.`',t.table_name,'`;') AS stmt
-FROM information_schema.tables t
-WHERE t.table_schema = 'vivek_magento'
-AND t.table_name LIKE 'perception%' ESCAPE '\\'
-ORDER BY t.table_name;
-
-SELECT CONCAT('ALTER TABLE `',TABLE_SCHEMA,'`.`',TABLE_NAME,'` DROP `',COLUMN_NAME,'`;') AS stmt
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE COLUMN_NAME LIKE "perception%"
-AND TABLE_SCHEMA='vivek_magento';
---Vehicle fits module uninstall database & data finish--
 
 --Generate drop/truncate table queries for all tables in a db--
 SELECT concat('DROP TABLE IF EXISTS ', TABLE_NAME, ';')
@@ -147,10 +114,6 @@ WHERE TABLE_SCHEMA = '<database_name>' LIMIT 364, 0;
 SELECT concat('TRUNCATE ', TABLE_NAME, ';')
 FROM INFORMATION_SCHEMA.TABLES
 WHERE TABLE_SCHEMA = '<database_name>' LIMIT 364, 0;
-
-SELECT concat('DROP TABLE IF EXISTS ', TABLE_NAME, ';')
-FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_SCHEMA = 'magento_cookpack' LIMIT 364;
 
 --Add before the generated sql--
 SET FOREIGN_KEY_CHECKS = 0;
@@ -202,14 +165,8 @@ DROP PROCEDURE IF EXISTS `drop_all_tables`;
 SELECT *  FROM `core_config_data` WHERE `path` LIKE '%base_url%'
 UPDATE `core_config_data` SET `value` = "[new_url]" WHERE `path` LIKE '%base_url%';
 
---eg.--
-SELECT *  FROM `core_config_data` WHERE `path` LIKE '%base_url%'
-UPDATE `core_config_data` SET `value` = "http://115.112.143.170/ECO/mag/cookpack/" WHERE `path` LIKE '%base_url%';
-
 --or--
 
 UPDATE table SET field = REPLACE(field, 'string', 'anothervalue') WHERE field LIKE '%string%';
 UPDATE `core_config_data` SET `value` = REPLACE(`value`, '<old_path_partial>', '<new_path_partial>') WHERE `path` LIKE '%base_url%';
-UPDATE `core_config_data` SET `value` = REPLACE(`value`, '192.168.0.160/226/mag', '192.168.0.160/vivek') WHERE `path` LIKE '%base_url%';
-UPDATE `core_config_data` SET `value` = REPLACE(`value`, '192.168.0.160/vivek', '115.112.143.170/ECO/mag') WHERE `path` LIKE '%base_url%';
 --Update url after uploading magento files & setting up database finish--
