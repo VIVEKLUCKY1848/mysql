@@ -170,3 +170,16 @@ UPDATE `core_config_data` SET `value` = "[new_url]" WHERE `path` LIKE '%base_url
 UPDATE table SET field = REPLACE(field, 'string', 'anothervalue') WHERE field LIKE '%string%';
 UPDATE `core_config_data` SET `value` = REPLACE(`value`, '<old_path_partial>', '<new_path_partial>') WHERE `path` LIKE '%base_url%';
 --Update url after uploading magento files & setting up database finish--
+
+--Get unused attributes and their values from Magento database start--
+SELECT o.*, v.*, a.*
+FROM `eav_attribute` a
+INNER JOIN `eav_attribute_option` o ON a.`attribute_id` = o.`attribute_id`
+INNER JOIN `eav_attribute_option_value` v ON v.`option_id` = o.`option_id`
+INNER JOIN `eav_entity_type` t ON t.`entity_type_id` = a.`entity_type_id`
+LEFT JOIN `catalog_product_entity_int` pi ON o.`option_id` = pi.`value` AND o.`attribute_id` = pi.`attribute_id`
+LEFT JOIN `catalog_product_entity_varchar` pv ON FIND_IN_SET(o.`option_id`, pv.`value`) AND o.`attribute_id` = pv.`attribute_id`
+WHERE pi.`entity_id` IS NULL
+AND pv.`entity_id` IS NULL
+AND t.`entity_type_code` = "catalog_product";
+--Get unused attributes and their values from Magento database finish--
