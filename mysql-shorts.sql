@@ -193,7 +193,7 @@ DECLARE @delimiter CHAR(1),
 SET @delimiter = ','
 
 -- SET @tableList = 'table1,table2,table3'
-SELECT @tableList := GROUP_CONCAT(`table_name`) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'rpm_simpletire' AND TABLE_NAME LIKE '%order%' OR TABLE_NAME LIKE '%product%';
+SELECT @tableList := GROUP_CONCAT(`table_name`) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '[DatabaseName]' AND TABLE_NAME LIKE '%order%' OR TABLE_NAME LIKE '%product%';
 
 WHILE LEN(@tableList) > 0
 BEGIN
